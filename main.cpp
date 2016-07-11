@@ -23,7 +23,34 @@ void print_ref_info (const BamReader & reader){
     }
 }
 
+void get_alignment_info (BamAlignment al){
+    cout
+    <<"\n"<< al.Name.c_str()
+    <<"\n IsDuplicate:"<<	al.IsDuplicate()
+    <<"\n IsFailedQC"<<	 	al.IsFailedQC()
+    <<"\n IsMaped:"<< 	  	al.IsMapped()
+    <<"\n isFirstMate:"<< 	al.IsFirstMate()
+    <<"\n isSecondMate:"<< 	al.IsSecondMate()
+    <<"\n IsMateMapped:"<< 	al.IsMateMapped()
+    <<"\n IsMateReverseStrand:"<< al.IsMateReverseStrand() // returns true if alignment's mate mapped to reverse strand
+    <<"\n IsReverseStrand:"<<	al.IsReverseStrand()
+    <<"\n IsPaired:"<<		al.IsPaired()
+    <<"\n IsPrimaryAlignment:"<<al.IsPrimaryAlignment()
+    <<"\n IsProperPair:"<<	al.IsProperPair()
+    <<"\n AligmentFlag:"<<	al.AlignmentFlag
+//    <<"\n MateRefId:"<<		references[al.MateRefID].RefName.c_str()
+    <<"\n Len:"<<	    	al.Length
+    <<"\n InsertSize:"<<	al.InsertSize
+    <<"\n MatePosition:["<<al.MatePosition<<"] ";
+//    <<"\n Position:["<<references[al.RefID].RefName.c_str()<<":"<<al.Position+1<<"-"<<al.GetEndPosition()<<"] ";
+}
 
+void print_alignments_info (BamReader reader){
+    BamAlignment current_alignment;
+    while (reader.GetNextAlignmentCore(current_alignment)){
+        get_alignment_info (current_alignment);
+    }
+}
 
 int main() {
     string full_filename = "/home/jedi/cchmc/data/bam/small/wgEncodeUwRepliSeqBjG1bAlnRep1.bam";
@@ -36,10 +63,7 @@ int main() {
 
     print_header_info (reader);
     print_ref_info (reader);
-
-
-
-
+    print_alignments_info (reader);
 
     return 0;
 }
